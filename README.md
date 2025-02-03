@@ -11,7 +11,7 @@
 PDF_automation/
 │-- main.py
 │-- pdf_files/      # Сюда помещаем файлы "Том1", "Том2", ...
-│-- template.docx   # Шаблон документа (IUL.docx)
+│-- template.docx   # Шаблон документа (ИУЛ.docx)
 ```
 
 ### 2. Запуск программы
