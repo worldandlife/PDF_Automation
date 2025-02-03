@@ -5,6 +5,7 @@ from docx import Document
 from datetime import datetime
 #import comtypes.client
 import pdfplumber
+import traceback
 
 def get_file_info(file_path):
     """Получаем имя, размер, дату изменения и хеш-сумму файла (CRC32)"""
@@ -61,6 +62,7 @@ if sys.platform == "win32":
 
     def convert_docx_to_pdf(docx_path, pdf_path):
         word = comtypes.client.CreateObject("Word.Application")
+        print(docx_path)
         doc = word.Documents.Open(docx_path)
         doc.SaveAs(pdf_path, FileFormat=17)  # 17 = wdFormatPDF
         doc.Close()
@@ -100,21 +102,26 @@ def main():
     for file_name in os.listdir(input_folder):
         if file_name.lower().endswith('.pdf'):
             file_path = os.path.join(input_folder, file_name)
-            
+           
             print(f'Обрабатываем файл: {file_name}')
             file_info = get_file_info(file_path)
 
 
             # Создаем путь для временного DOCX файла
-            temp_docx = os.path.join(output_folder, f'{os.path.splitext(file_name)[0]}.docx')
+            temp_docx = os.path.abspath(os.path.join(output_folder, f'{os.path.splitext(file_name)[0]}.docx'))
             
             # Создаем путь для финального PDF файла, убираем расширение '.pdf'
-            final_pdf = os.path.join(output_folder, os.path.splitext(file_name)[0])
+            final_pdf = os.path.abspath(os.path.join(output_folder, os.path.splitext(file_name)[0]))
             
             update_template(template_file, temp_docx, file_info)
             convert_docx_to_pdf(temp_docx, final_pdf)
             os.remove(temp_docx)  # Удаляем временный DOCX
             print(f'Создан файл: {final_pdf}')
 
-if __name__ == "__main__":
+try:
     main()
+except Exception as e:
+    print("Произошла ошибка:")
+    print(e)
+    print(traceback.format_exc())	
+    input("Нажмите Enter для выхода...")
