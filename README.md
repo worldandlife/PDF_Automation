@@ -25,7 +25,7 @@ python main.py
 ## Сборка `.exe` (для Windows)
 Если нужно запустить без Python, соберите исполняемый файл:
 ```sh
-pyinstaller --onefile --add-data "template.docx;." main.py
+pyinstaller --onefile --add-data "template.docx:." main.py
 ```
 После этого файл `main.exe` появится в папке `dist/`.
 
@@ -36,4 +36,4 @@ pip install python-docx PyMuPDF zlib
 ```
 
 ## Контакты
-Автор: [Твой контакт или ник]
+Автор: [wordandlife](https://github.com/worldandlife)
